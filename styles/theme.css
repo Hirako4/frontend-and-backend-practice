@@ -41,3 +41,36 @@ body {
 h1, h2, h3, p, li, a {
   color: var(--text-color);
 }
+/* Стили для карточек на всех страницах */
+.card,
+.news-card,
+.contacts-card,
+.products-grid,
+.product-card {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 20px;
+  color: var(--text-color);
+}
+
+/* Для товаров: кнопки и цены тоже должны менять цвет */
+.product-card button,
+.card-price {
+  background-color: var(--card-bg);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+  border-radius: 5px;
+  padding: 8px 16px;
+}
+
+/* Для ссылок в контактах */
+a {
+  color: var(--text-color);
+  text-decoration: underline;
+}
+
+a:hover {
+  color: #007bff; /* можно оставить синий или сделать var(--accent-color) */
+}
