@@ -4,11 +4,109 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Мой первый сайт</title>
-  <link rel="stylesheet" href="styles/styles.css" />
+  <style>
+    :root {
+      --bg-color: #ffffff;
+      --text-color: #000000;
+      --card-bg: #f9f9f9;
+      --border-color: #ddd;
+    }
+
+    [data-theme="dark"] {
+      --bg-color: #121212;
+      --text-color: #ffffff;
+      --card-bg: #1e1e1e;
+      --border-color: #444;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    h1, h2, h3 {
+      color: var(--text-color);
+    }
+
+    p, ul {
+      color: var(--text-color);
+    }
+
+    /* Применяем тему к существующим блокам */
+    .header,
+    .card,
+    .footer {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    .nav-list {
+      display: flex;
+      gap: 16px;
+      list-style: none;
+      padding: 0;
+      margin: 16px 0 0;
+    }
+
+    .nav-list a {
+      color: var(--text-color);
+      text-decoration: none;
+    }
+
+    .nav-list a:hover {
+      text-decoration: underline;
+    }
+
+    .about-flex {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    @media (min-width: 600px) {
+      .about-flex {
+        flex-direction: row;
+        align-items: flex-start;
+      }
+      .about-flex > div {
+        flex: 1;
+      }
+    }
+
+    button#theme-toggle {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      padding: 8px 16px;
+      background: var(--card-bg);
+      color: var(--text-color);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 16px;
+      z-index: 100;
+    }
+  </style>
 </head>
 <body>
+  <button id="theme-toggle">🌙 / ☀️</button>
+
   <header class="header">
-    <h1>Добро пожаловать на мой сайт!</h1>
+    <h1>Мой сайт</h1>
     <nav>
       <ul class="nav-list">
         <li><a href="index.html">Главная</a></li>
@@ -19,6 +117,7 @@
       </ul>
     </nav>
   </header>
+
   <main>
     <section class="card about">
       <div class="about-flex">
@@ -41,8 +140,33 @@
       </div>
     </section>
   </main>
+
   <footer class="footer">
     <p>© 2025 Евтушенко Гордей</p>
   </footer>
+
+  <script>
+    const toggleButton = document.getElementById('theme-toggle');
+    const currentTheme = localStorage.getItem('theme') || 'light';
+
+    document.documentElement.setAttribute('data-theme', currentTheme);
+
+    function updateButtonIcon() {
+      if (document.documentElement.getAttribute('data-theme') === 'dark') {
+        toggleButton.textContent = '☀️ / 🌙';
+      } else {
+        toggleButton.textContent = '🌙 / ☀️';
+      }
+    }
+
+    toggleButton.addEventListener('click', () => {
+      const newTheme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', newTheme);
+      localStorage.setItem('theme', newTheme);
+      updateButtonIcon();
+    });
+
+    updateButtonIcon();
+  </script>
 </body>
 </html>
