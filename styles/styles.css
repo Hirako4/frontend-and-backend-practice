@@ -1,0 +1,173 @@
+:root {
+  --accent: #2773c9;
+  --accent2: #55aaff;
+  --gray: #363d47;
+  --bg: #f4f5f8;
+  --card-bg: #fff;
+  --shadow: 0 8px 30px rgba(39,115,201,0.12);
+}
+body {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: var(--bg);
+  color: var(--gray);
+  margin: 0;
+}
+.header {
+  background: linear-gradient(90deg, var(--accent2) 0%, var(--bg) 100%);
+  box-shadow: 0 2px 12px rgba(41, 87, 153, 0.08);
+  padding: 2.2rem 0 1.2rem 0;
+  text-align: center;
+}
+.header h1 {
+  font-size: 2.6rem;
+  color: var(--accent);
+  margin-bottom: 0.9rem;
+}
+.nav-list {
+  display: flex;
+  justify-content: center;
+  gap: 36px;
+  list-style: none;
+  padding: 0;
+}
+.nav-list li a {
+  color: var(--accent);
+  font-weight: 700;
+  text-decoration: none;
+  font-size: 1.12rem;
+  padding: 10px 22px;
+  border-radius: 12px;
+  transition: color 0.18s, background 0.17s;
+}
+.nav-list li a:hover {
+  background: var(--accent2);
+  color: #fff;
+}
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 30px;
+}
+.card {
+  background: var(--card-bg);
+  box-shadow: var(--shadow);
+  border-radius: 20px;
+  max-width: 960px;
+  width: 100%;
+  padding: 40px;
+  margin-bottom: 30px;
+}
+.about-flex {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 32px;
+}
+.my-photo {
+  border-radius: 18px;
+  box-shadow: 0 2px 18px rgba(40,87,153,0.18);
+  max-width: 260px;
+  height: auto;
+}
+.products-grid {
+  display: flex;
+  gap: 32px;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding-top: 32px;
+}
+.product-card {
+  background: linear-gradient(115deg, #ffffff 70%, #eaf3ff 100%);
+  border-radius: 22px;
+  box-shadow: 0 8px 30px rgba(39, 115, 201, 0.18), 0 2px 8px #d3ebff;
+  max-width: 320px;
+  width: 100%;
+  padding: 25px 28px 30px 28px;
+  text-align: center;
+  transition: 0.25s box-shadow, 0.25s transform;
+  margin-bottom: 18px;
+  position: relative;
+}
+.product-card:hover {
+  box-shadow: 0 18px 60px rgba(39,115,201,0.34), 0 2px 14px #eaf3ff;
+  transform: translateY(-10px) scale(1.03);
+}
+.product-card img {
+  width: 100%;
+  height: 170px;
+  object-fit: cover;
+  border-radius: 16px;
+  box-shadow: 0 2px 12px rgba(39,115,201,0.09);
+  margin-bottom: 18px;
+}
+.product-card h3 {
+  font-size: 1.17rem;
+  margin-bottom: 11px;
+  color: #2773c9;
+  font-weight: 700;
+}
+.product-card p {
+  margin-bottom: 15px;
+  font-size: 1rem;
+  color: #394860;
+  min-height: 48px;
+}
+.card-price {
+  font-size: 1.18rem;
+  color: #ed7135;
+  font-weight: 700;
+  margin-bottom: 15px;
+}
+.product-card button {
+  background: linear-gradient(96deg,#2773c9 40%,#55aaff 100%);
+  border: none;
+  padding: 12px 32px;
+  border-radius: 14px;
+  color: white;
+  font-weight: bold;
+  font-size: 1.12rem;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(39,115,201,0.15);
+  transition: background 0.22s;
+}
+.product-card button:hover {
+  background: linear-gradient(90deg,#55aaff 40%,#2773c9 100%);
+}
+.news-card .news-item {
+  margin-bottom: 22px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid #ebf5fe;
+}
+.news-date {
+  color: #2773c9;
+  font-weight: 700;
+  font-size: 1.07rem;
+  margin-bottom: 6px;
+}
+.news-title {
+  color: #363d47;
+  font-weight: bold;
+  font-size: 1.14rem;
+  margin-bottom: 4px;
+}
+.news-text {
+  color: #56697b;
+  font-size: 1rem;
+}
+.contacts-card h2 {
+  color: #2773c9;
+  margin-bottom: 10px;
+}
+.contacts-card a {
+  color: #2773c9;
+  text-decoration: underline;
+}
+.footer {
+  color: #8293a2;
+  padding: 32px 0 18px 0;
+  font-size: 1rem;
+  border-top: 1px solid #dde3ea;
+  margin-top: 70px;
+  text-align: center;
+}
