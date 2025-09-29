@@ -11,7 +11,10 @@
 
   <header class="header">
     <h1>Товары</h1>
-    <button id="cart-toggle">🛒 Корзина (<span id="cart-count">0</span>)</button>
+    <button id="cart-toggle">
+      🛒
+      <span id="cart-count-badge">0</span>
+    </button>
     <nav>
       <ul class="nav-list">
         <li><a href="../index.html">Главная</a></li>
@@ -74,7 +77,7 @@
 
     function updateCartCount() {
       const count = cart.reduce((sum, item) => sum + item.quantity, 0);
-      document.getElementById('cart-count').textContent = count;
+      document.getElementById('cart-count-badge').textContent = count;
     }
 
     function renderCart() {
@@ -85,8 +88,14 @@
       cart.forEach(item => {
         const li = document.createElement('li');
         li.innerHTML = `
-          <span>${item.name}</span> — <span>${item.price}₽</span> × <span>${item.quantity}</span>
-          <button class="remove-item" data-id="${item.id}">Удалить</button>
+          <div class="cart-item-info">
+            <div class="cart-item-image"></div>
+            <div class="cart-item-details">
+              <div class="cart-item-name">${item.name}</div>
+              <div class="cart-item-price">${item.price}₽ × ${item.quantity}</div>
+            </div>
+          </div>
+          <button class="remove-item" data-id="${item.id}">×</button>
         `;
         cartList.appendChild(li);
         total += item.price * item.quantity;
@@ -95,16 +104,17 @@
       document.getElementById('cart-total').textContent = `Итого: ${total}₽`;
     }
 
-    function addToCart(name, price) {
+    function addToCart(name, price, image = null) {
       const existing = cart.find(item => item.name === name);
       if (existing) {
         existing.quantity++;
       } else {
         cart.push({
-          id: Date.now(), // уникальный ID
+          id: Date.now(),
           name,
           price,
-          quantity: 1
+          quantity: 1,
+          image
         });
       }
       localStorage.setItem('cart', JSON.stringify(cart));
@@ -128,7 +138,7 @@
           const card = btn.closest('.product-card');
           const name = card.querySelector('h3').textContent;
           const priceText = card.querySelector('.card-price').textContent;
-          const price = parseInt(priceText.replace('₽', '')); // вытащим цену
+          const price = parseInt(priceText.replace('₽', ''));
           addToCart(name, price);
           alert(`${name} добавлен в корзину!`);
         });
