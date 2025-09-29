@@ -237,3 +237,88 @@ button#theme-toggle {
   z-index: 100;
   font-size: 16px;
 }
+/* Стили для корзины */
+.cart-modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 1000;
+  justify-content: center;
+  align-items: center;
+}
+
+.cart-modal.active {
+  display: flex;
+}
+
+.cart-content {
+  background: var(--card-bg);
+  color: var(--text-color);
+  padding: 20px;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 500px;
+  position: relative;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+#close-cart {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: var(--text-color);
+}
+
+#cart-items {
+  list-style: none;
+  padding: 0;
+  margin-top: 30px;
+}
+
+#cart-items li {
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border-color);
+}
+
+#cart-total {
+  font-weight: bold;
+  font-size: 1.2rem;
+  margin: 15px 0;
+}
+
+#checkout-btn {
+  background: var(--accent);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  width: 100%;
+}
+
+#checkout-btn:hover {
+  background: var(--accent2);
+}
+
+.cart-overlay {
+  display: none;
+}
+
+.cart-overlay.active {
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  z-index: 999;
+}
