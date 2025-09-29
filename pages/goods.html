@@ -11,7 +11,7 @@
 
   <header class="header">
     <h1>Товары</h1>
-     <button id="cart-toggle"> Корзина (<span id="cart-count">0</span>)</button>
+    <button id="cart-toggle">🛒 Корзина (<span id="cart-count">0</span>)</button>
     <nav>
       <ul class="nav-list">
         <li><a href="../index.html">Главная</a></li>
@@ -52,110 +52,112 @@
   <footer class="footer">
     <p>© 2025 Евтушенко Гордей</p>
   </footer>
-<script>
-  // Инициализация корзины
-  let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
-  function updateCartCount() {
-    const count = cart.reduce((sum, item) => sum + item.quantity, 0);
-    document.getElementById('cart-count').textContent = count;
-  }
-
-  function renderCart() {
-    const cartList = document.getElementById('cart-items');
-    cartList.innerHTML = '';
-    let total = 0;
-
-    cart.forEach(item => {
-      const li = document.createElement('li');
-      li.innerHTML = `
-        <span>${item.name}</span> — <span>${item.price}₽</span> × <span>${item.quantity}</span>
-        <button class="remove-item" data-id="${item.id}">Удалить</button>
-      `;
-      cartList.appendChild(li);
-      total += item.price * item.quantity;
-    });
-
-    document.getElementById('cart-total').textContent = `Итого: ${total}₽`;
-  }
-
-  function addToCart(name, price) {
-    const existing = cart.find(item => item.name === name);
-    if (existing) {
-      existing.quantity++;
-    } else {
-      cart.push({
-        id: Date.now(), // уникальный ID
-        name,
-        price,
-        quantity: 1
-      });
-    }
-    localStorage.setItem('cart', JSON.stringify(cart));
-    updateCartCount();
-  }
-
-  function removeFromCart(id) {
-    cart = cart.filter(item => item.id !== id);
-    localStorage.setItem('cart', JSON.stringify(cart));
-    renderCart();
-    updateCartCount();
-  }
-
-  document.addEventListener('DOMContentLoaded', () => {
-    updateCartCount();
-    renderCart();
-
-    // Кнопки "Купить"
-    document.querySelectorAll('.product-card button').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const card = btn.closest('.product-card');
-        const name = card.querySelector('h3').textContent;
-        const priceText = card.querySelector('.card-price').textContent;
-        const price = parseInt(priceText.replace('₽', '')); // вытащим цену
-        addToCart(name, price);
-        alert(`${name} добавлен в корзину!`);
-      });
-    });
-
-    // Открытие/закрытие корзины
-    document.getElementById('cart-toggle').addEventListener('click', () => {
-      document.getElementById('cart-modal').classList.add('active');
-      document.getElementById('cart-overlay').classList.add('active');
-    });
-
-    document.getElementById('close-cart').addEventListener('click', () => {
-      document.getElementById('cart-modal').classList.remove('active');
-      document.getElementById('cart-overlay').classList.remove('active');
-    });
-
-    document.getElementById('cart-overlay').addEventListener('click', () => {
-      document.getElementById('cart-modal').classList.remove('active');
-      document.getElementById('cart-overlay').classList.remove('active');
-    });
-
-    // Удаление товара
-    document.addEventListener('click', e => {
-      if (e.target.classList.contains('remove-item')) {
-        const id = Number(e.target.dataset.id);
-        removeFromCart(id);
-      }
-    });
-  });
-</script>
-  <script src="../scripts/theme.js"></script>
   <!-- Модальное окно корзины -->
-<div id="cart-modal" class="cart-modal">
-  <div class="cart-content">
-    <h2>Корзина</h2>
-    <button id="close-cart">&times;</button>
-    <ul id="cart-items"></ul>
-    <div id="cart-total">Итого: 0₽</div>
-    <button id="checkout-btn">Оформить заказ</button>
+  <div id="cart-modal" class="cart-modal">
+    <div class="cart-content">
+      <h2>Корзина</h2>
+      <button id="close-cart">&times;</button>
+      <ul id="cart-items"></ul>
+      <div id="cart-total">Итого: 0₽</div>
+      <button id="checkout-btn">Оформить заказ</button>
+    </div>
   </div>
-</div>
 
-<!-- Подложка -->
-<div id="cart-overlay" class="cart-overlay"></div>
+  <!-- Подложка -->
+  <div id="cart-overlay" class="cart-overlay"></div>
+
+  <script src="../scripts/theme.js"></script>
+  <script>
+    // Инициализация корзины
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+    function updateCartCount() {
+      const count = cart.reduce((sum, item) => sum + item.quantity, 0);
+      document.getElementById('cart-count').textContent = count;
+    }
+
+    function renderCart() {
+      const cartList = document.getElementById('cart-items');
+      cartList.innerHTML = '';
+      let total = 0;
+
+      cart.forEach(item => {
+        const li = document.createElement('li');
+        li.innerHTML = `
+          <span>${item.name}</span> — <span>${item.price}₽</span> × <span>${item.quantity}</span>
+          <button class="remove-item" data-id="${item.id}">Удалить</button>
+        `;
+        cartList.appendChild(li);
+        total += item.price * item.quantity;
+      });
+
+      document.getElementById('cart-total').textContent = `Итого: ${total}₽`;
+    }
+
+    function addToCart(name, price) {
+      const existing = cart.find(item => item.name === name);
+      if (existing) {
+        existing.quantity++;
+      } else {
+        cart.push({
+          id: Date.now(), // уникальный ID
+          name,
+          price,
+          quantity: 1
+        });
+      }
+      localStorage.setItem('cart', JSON.stringify(cart));
+      updateCartCount();
+    }
+
+    function removeFromCart(id) {
+      cart = cart.filter(item => item.id !== id);
+      localStorage.setItem('cart', JSON.stringify(cart));
+      renderCart();
+      updateCartCount();
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      updateCartCount();
+      renderCart();
+
+      // Кнопки "Купить"
+      document.querySelectorAll('.product-card button').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const card = btn.closest('.product-card');
+          const name = card.querySelector('h3').textContent;
+          const priceText = card.querySelector('.card-price').textContent;
+          const price = parseInt(priceText.replace('₽', '')); // вытащим цену
+          addToCart(name, price);
+          alert(`${name} добавлен в корзину!`);
+        });
+      });
+
+      // Открытие/закрытие корзины
+      document.getElementById('cart-toggle').addEventListener('click', () => {
+        document.getElementById('cart-modal').classList.add('active');
+        document.getElementById('cart-overlay').classList.add('active');
+      });
+
+      document.getElementById('close-cart').addEventListener('click', () => {
+        document.getElementById('cart-modal').classList.remove('active');
+        document.getElementById('cart-overlay').classList.remove('active');
+      });
+
+      document.getElementById('cart-overlay').addEventListener('click', () => {
+        document.getElementById('cart-modal').classList.remove('active');
+        document.getElementById('cart-overlay').classList.remove('active');
+      });
+
+      // Удаление товара
+      document.addEventListener('click', e => {
+        if (e.target.classList.contains('remove-item')) {
+          const id = Number(e.target.dataset.id);
+          removeFromCart(id);
+        }
+      });
+    });
+  </script>
 </body>
 </html>
