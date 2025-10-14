@@ -1,173 +1,186 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Товары</title>
-  <link rel="stylesheet" href="../styles/styles.css" />
-</head>
-<body>
-  <button id="theme-toggle">🌙 / ☀️</button>
-
-  <header class="header">
-    <h1>Товары</h1>
-    <button id="cart-toggle">
-      🛒
-      <span id="cart-count-badge">0</span>
-    </button>
-    <nav>
-      <ul class="nav-list">
-        <li><a href="../index.html">Главная</a></li>
-        <li><a href="news.html">Новости</a></li>
-        <li><a href="practices.html">Практики</a></li>
-        <li><a href="goods.html">Товары</a></li>
-        <li><a href="contacts.html">Контакты</a></li>
-      </ul>
-    </nav>
-  </header>
-
-  <main>
-    <section class="products-grid">
-      <article class="product-card">
-        <img src="../images/goods1.jpg" alt="Товар 1" />
-        <h3>Звёздная лампа</h3>
-        <p>Светодиодный ночник с эффектом звёздного неба.</p>
-        <div class="card-price">1490₽</div>
-        <button>Купить</button>
-      </article>
-      <article class="product-card">
-        <img src="../images/goods2.jpg" alt="Товар 2" />
-        <h3>Кружка-гейзер</h3>
-        <p>Термокружка с эффектом меняющегося цвета.</p>
-        <div class="card-price">790₽</div>
-        <button>Купить</button>
-      </article>
-      <article class="product-card">
-        <img src="../images/goods3.jpg" alt="Товар 3" />
-        <h3>Плед-светлячки</h3>
-        <p>Мягкий плед с подсветкой для уютных вечеров.</p>
-        <div class="card-price">2190₽</div>
-        <button>Купить</button>
-      </article>
-    </section>
-  </main>
-
-  <footer class="footer">
-    <p>© 2025 Евтушенко Гордей</p>
-  </footer>
-
-  <!-- Модальное окно корзины -->
-  <div id="cart-modal" class="cart-modal">
-    <div class="cart-content">
-      <h2>Корзина</h2>
-      <button id="close-cart">&times;</button>
-      <ul id="cart-items"></ul>
-      <div id="cart-total">Итого: 0₽</div>
-      <button id="checkout-btn">Оформить заказ</button>
-    </div>
-  </div>
-
-  <!-- Подложка -->
-  <div id="cart-overlay" class="cart-overlay"></div>
-
-  <script src="../scripts/theme.js"></script>
-  <script>
-    // Инициализация корзины
-    let cart = JSON.parse(localStorage.getItem('cart')) || [];
-
-    function updateCartCount() {
-      const count = cart.reduce((sum, item) => sum + item.quantity, 0);
-      document.getElementById('cart-count-badge').textContent = count;
-    }
-
-    function renderCart() {
-      const cartList = document.getElementById('cart-items');
-      cartList.innerHTML = '';
-      let total = 0;
-
-      cart.forEach(item => {
-        const li = document.createElement('li');
-        li.innerHTML = `
-          <div class="cart-item-info">
-            <div class="cart-item-image"></div>
-            <div class="cart-item-details">
-              <div class="cart-item-name">${item.name}</div>
-              <div class="cart-item-price">${item.price}₽ × ${item.quantity}</div>
-            </div>
-          </div>
-          <button class="remove-item" data-id="${item.id}">×</button>
-        `;
-        cartList.appendChild(li);
-        total += item.price * item.quantity;
-      });
-
-      document.getElementById('cart-total').textContent = `Итого: ${total}₽`;
-    }
-
-    function addToCart(name, price, image = null) {
-      const existing = cart.find(item => item.name === name);
-      if (existing) {
-        existing.quantity++;
-      } else {
-        cart.push({
-          id: Date.now(),
-          name,
-          price,
-          quantity: 1,
-          image
-        });
-      }
-      localStorage.setItem('cart', JSON.stringify(cart));
-      updateCartCount();
-    }
-
-    function removeFromCart(id) {
-      cart = cart.filter(item => item.id !== id);
-      localStorage.setItem('cart', JSON.stringify(cart));
-      renderCart();
-      updateCartCount();
-    }
-
-    document.addEventListener('DOMContentLoaded', () => {
-      updateCartCount();
-      renderCart();
-
-      // Кнопки "Купить"
-      document.querySelectorAll('.product-card button').forEach(btn => {
-        btn.addEventListener('click', () => {
-          const card = btn.closest('.product-card');
-          const name = card.querySelector('h3').textContent;
-          const priceText = card.querySelector('.card-price').textContent;
-          const price = parseInt(priceText.replace('₽', ''));
-          addToCart(name, price);
-          alert(`${name} добавлен в корзину!`);
-        });
-      });
-
-      // Открытие/закрытие корзины
-      document.getElementById('cart-toggle').addEventListener('click', () => {
-        document.getElementById('cart-modal').classList.add('active');
-        document.getElementById('cart-overlay').classList.add('active');
-      });
-
-      document.getElementById('close-cart').addEventListener('click', () => {
-        document.getElementById('cart-modal').classList.remove('active');
-        document.getElementById('cart-overlay').classList.remove('active');
-      });
-
-      document.getElementById('cart-overlay').addEventListener('click', () => {
-        document.getElementById('cart-modal').classList.remove('active');
-        document.getElementById('cart-overlay').classList.remove('active');
-      });
-
-      // Удаление товара
-      document.addEventListener('click', e => {
-        if (e.target.classList.contains('remove-item')) {
-          const id = Number(e.target.dataset.id);
-          removeFromCart(id);
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Товары - Евиушенко Гордея</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Ваши стили -->
+    <link rel="stylesheet" href="../style/styles.css">
+    <style>
+        .card-text-bright {
+            color: #e8e6e3 !important;
+            font-size: 1.1rem;
         }
-      });
-    });
-  </script>
+        .card-bg-custom {
+            background-color: #2d3748 !important;
+            border-color: #4a5568 !important;
+        }
+        .product-description {
+            color: #cbd5e0 !important;
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+        .discount-badge {
+            font-size: 0.9rem;
+            font-weight: bold;
+            z-index: 10;
+        }
+        .old-price {
+            text-decoration: line-through;
+            color: #a0aec0 !important;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body class="bg-dark text-light">
+    <!-- Header -->
+    <header class="bg-dark border-bottom border-warning">
+        <div class="container py-3">
+            <h1 class="h3 text-center mb-0 text-white">Товары Евиушенко Гордея</h1>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand fw-bold text-white" href="../index.html">Portfolio</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="../index.html">Главная</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="news.html">Новости</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="practices.html">Практики</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active text-white" href="goods.html">Товары</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="contacts.html">Контакты</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container my-5">
+        <h1 class="text-center mb-5 text-white">Наши товары</h1>
+        
+        <div class="row g-4">
+            <!-- Product 1 -->
+            <div class="col-md-4">
+                <div class="card h-100 card-bg-custom border-warning">
+                    <img src="../images/goods1.jpg" class="card-img-top p-3" alt="Буст ММР" style="height: 200px; object-fit: cover;">
+                    <div class="card-body">
+                        <h3 class="card-title h5 text-white">Буст ММР Рекрут - Титан</h3>
+                        <p class="product-description mb-2">Профессиональный буст аккаунтов Dota 2. Быстро и качественно повысим ваш рейтинг!</p>
+                        <p class="h5 text-warning mb-0 fw-bold">500 Долларов / 1 игра</p>
+                    </div>
+                    <div class="card-footer bg-transparent border-warning">
+                        <button class="btn btn-warning w-100 text-dark fw-bold">Купить сейчас</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 2 со скидкой -->
+            <div class="col-md-4">
+                <div class="card h-100 card-bg-custom border-warning position-relative">
+                    <!-- Бейдж скидки -->
+                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger discount-badge">
+                        -20%
+                        <span class="visually-hidden">скидка</span>
+                    </span>
+                    <img src="../images/goods2.jpg" class="card-img-top p-3" alt="Аркана на шейкера" style="height: 200px; object-fit: cover;">
+                    <div class="card-body">
+                        <h3 class="card-title h5 text-white">Аркана на шедоу финда</h3>
+                        <p class="product-description mb-2">Эксклюзивная аркана для Shadow Fiend. Сущность тьмы Demon eater!</p>
+                        <div class="price-container">
+                            <p class="old-price mb-1">12462 RUB</p>
+                            <p class="h5 text-warning mb-0 fw-bold">9970 RUB</p>
+                        </div>
+                    </div>
+                    <div class="card-footer bg-transparent border-warning">
+                        <button class="btn btn-warning w-100 text-dark fw-bold">Купить сейчас</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 3 -->
+            <div class="col-md-4">
+                <div class="card h-100 card-bg-custom border-warning">
+                    <img src="../images/goods3.jpg" class="card-img-top p-3" alt="Аркана на войда" style="height: 200px; object-fit: cover;">
+                    <div class="card-body">
+                        <h3 class="card-title h5 text-white">Аркана на войда</h3>
+                        <p class="product-description mb-2">Редкая аркана для Faceless Void. Космические эффекты и анимации!</p>
+                        <p class="h5 text-warning mb-0 fw-bold">117.5 $</p>
+                    </div>
+                    <div class="card-footer bg-transparent border-warning">
+                        <button class="btn btn-warning w-100 text-dark fw-bold">Купить сейчас</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Additional Products Row -->
+        <div class="row g-4 mt-4">
+            <div class="col-md-4">
+                <div class="card h-100 card-bg-custom border-info">
+                    <div class="card-body text-center">
+                        <h3 class="card-title h5 text-white">Коучинг Dota 2</h3>
+                        <p class="product-description">Индивидуальные тренировки с профессионалом. Улучшите свой скилл!</p>
+                        <p class="h5 text-info fw-bold">50 $ / час</p>
+                    </div>
+                    <div class="card-footer bg-transparent border-info">
+                        <button class="btn btn-info w-100 text-dark fw-bold">Записаться</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card h-100 card-bg-custom border-info">
+                    <div class="card-body text-center">
+                        <h3 class="card-title h5 text-white">Анализ реплеев</h3>
+                        <p class="product-description">Детальный разбор ваших игр. Узнайте свои ошибки и как их исправить!</p>
+                        <p class="h5 text-info fw-bold">25 $ / игра</p>
+                    </div>
+                    <div class="card-footer bg-transparent border-info">
+                        <button class="btn btn-info w-100 text-dark fw-bold">Заказать</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card h-100 card-bg-custom border-info">
+                    <div class="card-body text-center">
+                        <h3 class="card-title h5 text-white">Командный тренинг</h3>
+                        <p class="product-description">Тренировка для всей команды. Улучшите командное взаимодействие!</p>
+                        <p class="h5 text-info fw-bold">150 $ / сессия</p>
+                    </div>
+                    <div class="card-footer bg-transparent border-info">
+                        <button class="btn btn-info w-100 text-dark fw-bold">Забронировать</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-warning text-center py-3 border-top border-warning mt-5">
+        <div class="container">
+            <p class="mb-0">2025 ООО "ZXC Comunity"</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
